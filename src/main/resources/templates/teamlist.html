@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<title>Footy Site</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="internationalization.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#locales").change(function() {
+			var selectedOption = $('#locales').val();
+			if (selectedOption != '') {
+				window.location.replace('teamlist?lang=' + selectedOption);
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<nav class="navbar navbar-light bg-light">
+		<span class="navbar-brand mb-3 h1">Footy Site</span>
+		<div class="text-center" style="color: orange;">
+			<h4 th:text="#{greeting}"></h4>
+			<h4 th:inline="text">[[${#httpServletRequest.remoteUser}]]!</h4>
+		</div>
+
+		<span th:text="#{lang.change}"></span> <select id="locales">
+			<option value=""></option>
+			<option value="en" th:text="#{lang.eng}"></option>
+			<option value="de" th:text="#{lang.de}"></option>
+			<option value="fi" th:text="#{lang.fi}"></option>
+		</select>
+
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-dark" />
+		</form>
+	</nav>
+
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Founded</th>
+				<th scope="col">Captain</th>
+				<th scope="col">Manager</th>
+				<th scope="col">League</th>
+				<th scope="col">Standing</th>
+				<th sec:authorize="hasRole('ADMIN')"></th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tr th:each="team : ${teams}">
+			<td th:text="${team.name}">
+			<td th:text="${team.founded}">
+			<td th:text="${team.captain}">
+			<td th:text="${team.manager}">
+			<td th:text="${team.league.name}"></td>
+			<td th:text="${team.standing}">
+			<td></td>
+			<td sec:authorize="hasRole('ADMIN')"><a
+				th:href="@{/edit/{id}(id=${team.id})}" class="btn btn-dark">Edit</a></td>
+			<td sec:authorize="hasRole('ADMIN')"><a
+				th:href="@{/delete/{id}(id=${team.id})}" class="btn btn-warning">Delete</a></td>
+		</tr>
+	</table>
+	<a href="/add" class="btn btn-dark">Add Team</a>
+</body>
+</html>

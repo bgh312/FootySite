@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Edit Team</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+
+</head>
+<body>
+	<h1>Edit Team</h1>
+	<form th:object="${team}" th:action="@{../save}" action="#"
+		method="post">
+		<input type="hidden" th:field="*{id}" class="form-control" />
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="name">Name</label> <input type="text"
+					class="form-control" id="name" th:field="*{name}" placeholder="Name">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="founded">Founded</label> <input type="text"
+					class="form-control" id="founded" th:field="*{founded}">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="captain">Captain</label> <input type="text"
+					class="form-control" id="captain" th:field="*{captain}" placeholder="Captain">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="manager">Manager</label> <input type="text"
+					class="form-control" id="manager" th:field="*{manager}" placeholder="Manager">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="llist">League</label> <select id="llist"
+					th:field="*{league}" class="form-control">
+					<option th:each="league: ${leagues}" th:value="${league.leagueid}"
+						th:text="${league.name}"></option>
+				</select>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="standing">Standing</label> <input type="text"
+					class="form-control" id="standing" th:field="*{standing}">
+			</div>
+		</div>
+		<input type="submit" value="Save" style="color: orange"></input>
+	</form>
+</body>
+</html>
